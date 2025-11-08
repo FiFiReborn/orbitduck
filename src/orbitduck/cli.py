@@ -228,4 +228,21 @@ def scan(target: str, api_key: str | None, quick: bool, save: bool):
         console.print("[dim]Combined report not saved (run with --save to write to reports/)[/dim]")
 
 if __name__ == "__main__":
-    cli()
+    import sys
+
+    runner = CoreRunner()
+
+    # If user provides targets in CLI, use them; otherwise, use the allowlist
+    if len(sys.argv) > 1:
+        domains = sys.argv[1:]
+    else:
+        domains = list(runner.allowlist)
+
+    print(f"[*] Starting Orbit scans for: {', '.join(domains)}")
+
+    for d in domains:
+        runner.add_task(ScanTask(name=f"{d} quick scan", target=d, kind="nmap:quick"))
+        runner.add_task(ScanTask(name=f"{d} shodan lookup", target=d, kind="shodan:lookup"))
+
+    runner.run_all()
+

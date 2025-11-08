@@ -1,0 +1,3 @@
+example.com
+latrobe.edu.au
+8.8.8.8
