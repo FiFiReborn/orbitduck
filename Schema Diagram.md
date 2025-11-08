@@ -23,6 +23,10 @@ erDiagram
   EVENT_LOG }o--|| TARGETS : records
   EVENT_LOG }o--|| ASSETS : records
   EVENT_LOG }o--|| SERVICES : records
+  RULES ||--o{ RULE_HITS : defines
+  CONFIG }o--|| SERVICES : configures
+  API_KEYS }o--|| SERVICES : authenticates
+
 
   TARGETS {
     INTEGER id PK
