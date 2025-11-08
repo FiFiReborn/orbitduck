@@ -1,0 +1,7 @@
+rich
+pydantic>=2
+httpx
+pyyaml
+click
+python-dotenv
+pytest

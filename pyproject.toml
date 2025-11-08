@@ -1,0 +1,22 @@
+[project]
+name = "orbitduck"
+version = "0.1.0"
+description = "Attack surface discovery & monitoring — Orbit Duck"
+authors = [{name = "Orbit Duck Team"}]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+
+[tool.black]
+line-length = 100
+
+
+[tool.isort]
+profile = "black"
+
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-q"
+pythonpath = ["src"]

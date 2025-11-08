@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  orbitduck:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: "3.12"
+    image: ghcr.io/YOUR_GH_USERNAME/orbit-duck:dev
+    container_name: orbitduck-dev
+    env_file:
+      - .env
+    working_dir: /app
+    command: python -m orbitduck.cli run --target example.com --quick
+    volumes:
+      - ./src:/app/src:rw
+      - ./reports:/app/reports:rw
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    networks:            # service-level networks section
+      - orbitnet
+
+networks:                # top-level networks section (only once!)
+  orbitnet:
+    driver: bridge
