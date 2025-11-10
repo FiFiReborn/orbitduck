@@ -13,6 +13,7 @@ import ipaddress
 from datetime import datetime
 from typing import Dict, Any
 from threading import Lock
+from orbitduck.utils.risk_merge import merge_risk_scores
 
 # -------------------------------
 # Global Lock and Rate Limit

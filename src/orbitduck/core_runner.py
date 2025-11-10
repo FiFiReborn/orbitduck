@@ -6,8 +6,11 @@ from datetime import datetime
 import pandas as pd
 from threading import Lock
 from pathlib import Path
+
+# Module imports
 from orbitduck.modules.risk import assess_risk
 from orbitduck.utils.risk_trend import generate_risk_trend
+from orbitduck.modules import spiderfoot  # 🕷️ Added for SpiderFoot integration
 
 # Imports for discovery + reporting
 from orbitduck.modules.subdomain_enum import enumerate_subdomains
@@ -78,7 +81,7 @@ def _wait_for_rate_limit():
 class ScanTask:
     name: str
     target: str
-    kind: str  # e.g., "nmap:quick" | "nmap:default"
+    kind: str  # e.g., "nmap:quick" | "shodan:lookup" | "spiderfoot"
 
 
 class CoreRunner:
@@ -135,12 +138,21 @@ class CoreRunner:
                 if t.kind == "nmap:quick":
                     from orbitduck.modules.nmap_scan import nmap_quick_scan
                     scan_result = nmap_quick_scan(t.target)
+
                 elif t.kind == "nmap:default":
                     from orbitduck.modules.nmap_scan import nmap_default_scan
                     scan_result = nmap_default_scan(t.target)
+
                 elif t.kind == "shodan:lookup":
                     from orbitduck.modules.shodan_search import shodan_host_lookup
                     scan_result = shodan_host_lookup(t.target)
+
+                elif t.kind == "spiderfoot":
+                    # 🕷️ SpiderFoot scan integration
+                    from orbitduck.modules.spiderfoot import run_scan, get_results
+                    scan_id = run_scan(t.target)
+                    scan_result = get_results(scan_id)
+
                 else:
                     scan_result = {"error": f"Unknown kind: {t.kind}"}
             except Exception as e:
@@ -230,5 +242,7 @@ if __name__ == "__main__":
     for d in domains:
         runner.add_task(ScanTask(name=f"{d} quick scan", target=d, kind="nmap:quick"))
         runner.add_task(ScanTask(name=f"{d} shodan lookup", target=d, kind="shodan:lookup"))
+        # 🕷️ Added SpiderFoot task
+        runner.add_task(ScanTask(name=f"{d} spiderfoot scan", target=d, kind="spiderfoot"))
 
     runner.run_all()

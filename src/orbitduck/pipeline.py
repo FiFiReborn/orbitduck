@@ -17,6 +17,8 @@ from orbitduck.modules.internetdb import fetch_internetdb, normalise_internetdb
 from urllib import parse, request
 from orbitduck.modules.virustotal import vt_url_scan
 from orbitduck.diff_engine import (open_db, start_run, save_snapshot, previous_run_id, diff_runs, write_diff_report)
+from orbitduck.modules import nmap_scan, shodan_search, spiderfoot, virustotal
+from orbitduck.utils.risk_merge import merge_risk_scores
 
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -248,6 +250,14 @@ def _is_ip(target: str) -> bool:
         return True
     except Exception:
         return False
+
+def full_scan(target):
+    nmap_score = nmap_scan.run_scan(target)
+    shodan_score = shodan_search.run_lookup(target)
+    spiderfoot_score = spiderfoot.run_scan(target)
+    vt_score = virustotal.analyze_target(target)
+    total_risk = merge_risk_scores(nmap_score, shodan_score, spiderfoot_score, vt_score)
+    return total_risk
 
 def run_pipeline(
     domain: str,
