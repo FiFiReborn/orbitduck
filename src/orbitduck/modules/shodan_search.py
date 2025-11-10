@@ -8,6 +8,9 @@ from typing import Dict
 from threading import Lock
 from pathlib import Path
 from orbitduck.utils.io import write_report
+import os
+MOCK_MODE = os.getenv("ORBITDUCK_MOCK_MODE") == "1"
+
 
 # -------------------------------
 #  Allowlist + Rate-Limit Setup

@@ -1,0 +1,22 @@
+{
+  "modules": {
+    "nmap": 0.4,
+    "shodan": 0.3,
+    "spiderfoot": 0.3
+  },
+  "weights": {
+    "cve": 10,
+    "open_port": 5,
+    "exposed_service": 4,
+    "timeout": 2,
+    "error": 1,
+    "leak": 8,
+    "high_severity": 12,
+    "medium_severity": 6
+  },
+  "thresholds": {
+    "low": 0,
+    "medium": 15,
+    "high": 30
+  }
+}

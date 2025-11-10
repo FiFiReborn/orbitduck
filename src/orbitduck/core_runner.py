@@ -6,6 +6,9 @@ from datetime import datetime
 import pandas as pd
 from threading import Lock
 from pathlib import Path
+from orbitduck.utils.logger_manager import setup_logger, log_audit_entry, log_exception
+from colorama import init, Fore, Style
+init(autoreset=True)
 
 # Module imports
 from orbitduck.modules.risk import assess_risk
@@ -21,11 +24,60 @@ print("[DEBUG] orbitduck.core_runner loaded.")
 _lock = Lock()
 
 # -------------------------------
+# Helper functions
+# -------------------------------
+def show_startup_banner():
+    from pathlib import Path
+    import datetime
+    import os
+    from colorama import Fore, Style
+    from wcwidth import wcswidth  # Fixes emoji alignment across terminals
+
+    conf_path = Path("orbitduck/config/orbitduck.conf")
+    mock_mode = os.getenv("ORBITDUCK_MOCK_MODE") == "1"
+    mode_label = "MOCK MODE" if mock_mode else "REAL MODE"
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    box_width = 46  # Width of the box
+
+    def line(text="", color=Fore.YELLOW):
+        visible_length = wcswidth(text)
+        # VS Code terminal fix: reduce one space if emoji present
+        emoji_adjust = 1 if any(ch in text for ch in "🕒⚙️📁⚠️") else 0
+        padding = box_width - visible_length - 3 - emoji_adjust
+        return f"{color}║ {text}{' ' * padding}{Fore.MAGENTA}║"
+
+    print(f"\n{Fore.MAGENTA}{Style.BRIGHT}╔{'═' * (box_width - 2)}╗")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}║{'OrbitDuck Core v1.0'.center(box_width - 2)}║")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}╠{'═' * (box_width - 2)}╣")
+    print(line(f"🕒 Started: {timestamp}"))
+    print(line(f"⚙️  Mode:    {mode_label}"))
+    if conf_path.exists():
+        print(line(f"📁 Config:  {conf_path}"))
+    else:
+        print(line("⚠️  Config:  Not found"))
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}╚{'═' * (box_width - 2)}╝{Style.RESET_ALL}\n")
+
+# -------------------------------
 #  Allowlist + Rate Limit Helpers
 # -------------------------------
 
 def _load_allowlist() -> set:
     allowlist = set()
+
+    # read global config if present
+    conf_path = Path("orbitduck/config/orbitduck.conf")
+    mock_mode = False
+    defaults = []
+    if conf_path.exists():
+        for line in conf_path.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if line.startswith("MOCK_MODE"):
+                mock_mode = "true" in line.lower()
+            if line.startswith("DEFAULT_ALLOWLIST"):
+                defaults = [t.strip() for t in line.split("=", 1)[1].split(",") if t.strip()]
 
     file_path = os.getenv("ORBIT_ALLOWLIST_FILE", "config/allowlist.txt")
     path = Path(file_path)
@@ -41,8 +93,15 @@ def _load_allowlist() -> set:
             allowlist.add(line)
         print(f"[✓] Loaded {len(allowlist)} entries from {file_path}")
     else:
-        print(f"[!] Allowlist file not found at {file_path}")
+        if defaults:
+            print(f"[!] No allowlist file found, creating one with defaults...")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("\n".join(defaults))
+            allowlist.update(defaults)
+        else:
+            print(f"[!] Allowlist file not found at {file_path}")
 
+    # Environment variable additions
     env_allow = os.getenv("ORBIT_ALLOWLIST", "")
     if env_allow:
         added = 0
@@ -59,23 +118,35 @@ def _load_allowlist() -> set:
     else:
         print(f"[✓] Final allowlist total: {len(allowlist)} targets.")
 
+    # show mock mode state clearly
+    if mock_mode:
+        print("🧪 MOCK MODE ACTIVE — all modules will use simulated scans.")
+        os.environ["ORBITDUCK_MOCK_MODE"] = "1"
+    else:
+        os.environ.pop("ORBITDUCK_MOCK_MODE", None)
+
     return allowlist
 
+import time
 
-_last_scan_time = 0.0
-_rate_per_min = int(os.getenv("GLOBAL_RATE_PER_MIN", "30"))
-_min_interval = 60.0 / max(1, _rate_per_min)
-
+_last_scan_time = 0.0  # add this near the top of the file (global variable)
 
 def _wait_for_rate_limit():
+    """Prevent scans from firing too quickly between modules."""
     global _last_scan_time
-    with _lock:
-        now = time.time()
-        elapsed = now - _last_scan_time
-        if elapsed < _min_interval:
-            time.sleep(_min_interval - elapsed)
-        _last_scan_time = time.time()
+    interval = float(os.getenv("ORBITDUCK_SCAN_INTERVAL", "5"))  # default 5s if not set
 
+    now = time.time()
+    if _last_scan_time == 0.0:
+        _last_scan_time = now
+        return
+
+    elapsed = now - _last_scan_time
+    if elapsed < interval:
+        wait = interval - elapsed
+        print(f"⏳ Waiting {wait:.1f}s before next task...")
+        time.sleep(wait)
+    _last_scan_time = time.time()
 
 @dataclass
 class ScanTask:
@@ -88,33 +159,39 @@ class CoreRunner:
     def __init__(self):
         self.tasks: List[ScanTask] = []
         self.allowlist = _load_allowlist()
+        self.logger = setup_logger()
 
     def add_task(self, task: ScanTask):
         self.tasks.append(task)
 
     def run_all(self) -> List[Dict[str, Any]]:
-        print("\n🚀 Starting Orbit scan run...")
+        show_startup_banner()
+        self.logger.info("🚀 Starting Orbit scan run")
+        log_audit_entry("scan_start", {"total_tasks": len(self.tasks)})
+
         results: List[Dict[str, Any]] = []
 
-        # Filter tasks early
+    # Filter tasks early
         if self.allowlist:
             allowed = [t for t in self.tasks if t.target in self.allowlist]
             blocked = [t for t in self.tasks if t.target not in self.allowlist]
             if blocked:
-                print(f"⚠️  Skipping {len(blocked)} disallowed task(s): " +
-                      ", ".join(t.target for t in blocked))
+                self.logger.warning(f"⚠️ Skipping {len(blocked)} disallowed task(s): " +
+                                ", ".join(t.target for t in blocked))
+                log_audit_entry("blocked_tasks", {"blocked": [t.target for t in blocked]})
             self.tasks = allowed
 
-        # Subdomain discovery
+    # Subdomain discovery
         unique_targets = {t.target for t in self.tasks}
         all_targets = set()
         for target in unique_targets:
             if self.allowlist and target not in self.allowlist:
-                print(f"⏭️  Skipping discovery for {target} (not in allowlist)")
+                self.logger.info(f"⏭️ Skipping discovery for {target} (not in allowlist)")
                 continue
 
             subs = enumerate_subdomains(target)
-            print(f"🌐 Discovery: {target} → {len(subs)} subdomains found")
+            self.logger.info(f"🌐 Discovery: {target} → {len(subs)} subdomains found")
+            log_audit_entry("subdomain_discovery", {"target": target, "subdomains_found": len(subs)})
             all_targets.update(subs)
 
         if self.allowlist:
@@ -122,11 +199,11 @@ class CoreRunner:
         else:
             all_targets.update(unique_targets)
 
-        print(f"📋 Total targets to scan: {len(all_targets)}")
+        self.logger.info(f"📋 Total targets to scan: {len(all_targets)}")
 
-        # Run all tasks
+    # Run all tasks
         for t in self.tasks:
-            print(f"🔍 {t.kind.replace(':', ' ')} → {t.target}")
+            self.logger.info(f"🔍 Running task: {t.kind.replace(':', ' ')} → {t.target}")
 
             if self.allowlist and t.target not in self.allowlist:
                 results.append({"task": t.__dict__, "error": f"Target '{t.target}' not allowed"})
@@ -135,59 +212,83 @@ class CoreRunner:
             _wait_for_rate_limit()
 
             try:
+                # Unified result structure
+                scan_result = {
+                    "target": t.target,
+                    "nmap": {},
+                    "shodan": {},
+                    "spiderfoot": {}
+                }
+
                 if t.kind == "nmap:quick":
                     from orbitduck.modules.nmap_scan import nmap_quick_scan
-                    scan_result = nmap_quick_scan(t.target)
+                    scan_result["nmap"] = nmap_quick_scan(t.target)
 
                 elif t.kind == "nmap:default":
                     from orbitduck.modules.nmap_scan import nmap_default_scan
-                    scan_result = nmap_default_scan(t.target)
+                    scan_result["nmap"] = nmap_default_scan(t.target)
 
                 elif t.kind == "shodan:lookup":
                     from orbitduck.modules.shodan_search import shodan_host_lookup
-                    scan_result = shodan_host_lookup(t.target)
+                    scan_result["shodan"] = shodan_host_lookup(t.target)
 
                 elif t.kind == "spiderfoot":
-                    # 🕷️ SpiderFoot scan integration
                     from orbitduck.modules.spiderfoot import run_scan, get_results
                     scan_id = run_scan(t.target)
-                    scan_result = get_results(scan_id)
+                    scan_result["spiderfoot"] = get_results(scan_id)
 
                 else:
-                    scan_result = {"error": f"Unknown kind: {t.kind}"}
+                    scan_result["error"] = f"Unknown kind: {t.kind}"
+                    self.logger.warning(f"⚠️ Unknown task type: {t.kind}")
+
             except Exception as e:
-                scan_result = {"error": str(e)}
+                scan_result = {"target": t.target, "error": str(e)}
+                log_exception(self.logger, f"Error while scanning {t.target}", e)
+                log_audit_entry("scan_error", {"target": t.target, "error": str(e)})
 
             try:
                 risk_result = assess_risk(scan_result)
-            except Exception:
+            except Exception as e:
                 risk_result = {"risk": "UNKNOWN", "score": 0}
+                log_exception(self.logger, f"Risk assessment failed for {t.target}", e)
+                log_audit_entry("risk_error", {"target": t.target, "error": str(e)})
 
             results.append({"task": t.__dict__, "result": scan_result, "risk": risk_result})
+            log_audit_entry("task_complete", {"target": t.target, "risk": risk_result})
 
-        print("✅ All tasks complete — updating risk metrics...")
-        self._update_risk_metrics(results)
+        self.logger.info("✅ All tasks complete — updating risk metrics...")
+        log_audit_entry("scan_complete", {"completed_tasks": len(results)})
 
-        # Auto-update dashboard + diffs
-        print("🧭 Building updated dashboard...")
+    # Auto-update dashboard + diffs
+        self.logger.info("🧭 Building updated dashboard...")
         build_reports_dashboard()
-        print("🪄 Generating diffs...")
+        self.logger.info("🪄 Generating diffs...")
         auto_generate_diffs()
-        print("🎉 Dashboard and diffs updated successfully.\n")
+        self.logger.info("🎉 Dashboard and diffs updated successfully.")
 
-        # Summary
-        print("📊 Scan Summary")
+    # Summary
+        self.logger.info("📊 Scan Summary")
         total = len(results)
         scores = [r["risk"].get("score", 0) for r in results if "risk" in r]
         high = max(results, key=lambda r: r["risk"].get("score", 0), default=None)
-
         avg = sum(scores) / len(scores) if scores else 0
-        print(f" • Total Targets: {total}")
-        print(f" • Average Risk Score: {avg:.1f}")
+
+        summary = {
+            "total_targets": total,
+            "average_score": avg,
+            "highest_risk": high["task"]["target"] if high else "None",
+            "highest_risk_level": high["risk"].get("risk") if high else "N/A"
+        }
+
+        self.logger.info(f" • Total Targets: {total}")
+        self.logger.info(f" • Average Risk Score: {avg:.1f}")
         if high:
             h = high["risk"]
-            print(f" • Highest Risk: {high['task']['target']} ({h.get('risk')}, {h.get('score')})")
-        print("────────────────────────────\n")
+            self.logger.info(f" • Highest Risk: {high['task']['target']} ({h.get('risk')}, {h.get('score')})")
+        self.logger.info("────────────────────────────")
+
+        log_audit_entry("summary", summary)
+        self.logger.info("🧾 Scan summary logged and audit trail updated")
 
         return results
 
@@ -224,25 +325,31 @@ class CoreRunner:
 # -------------------------------
 if __name__ == "__main__":
     import sys
+    from orbitduck.utils.logger_manager import setup_logger, log_exception
 
-    print("[DEBUG] Main block running")
-    runner = CoreRunner()
+    logger = setup_logger()
+    try:
+        print("[DEBUG] Main block running")
+        runner = CoreRunner()
 
-    if len(sys.argv) > 1:
-        domains = sys.argv[1:]
-    else:
-        domains = list(runner.allowlist)
+        if len(sys.argv) > 1:
+            domains = sys.argv[1:]
+        else:
+            domains = list(runner.allowlist)
 
-    if not domains:
-        print("⚠️  No domains found in allowlist or arguments. Exiting.")
-        exit(0)
+        if not domains:
+            logger.warning("⚠️  No domains found in allowlist or arguments. Exiting.")
+            exit(0)
 
-    print(f"🚀 Starting Orbit scans for: {', '.join(domains)}")
+        logger.info(f"🚀 Starting Orbit scans for: {', '.join(domains)}")
 
-    for d in domains:
-        runner.add_task(ScanTask(name=f"{d} quick scan", target=d, kind="nmap:quick"))
-        runner.add_task(ScanTask(name=f"{d} shodan lookup", target=d, kind="shodan:lookup"))
-        # 🕷️ Added SpiderFoot task
-        runner.add_task(ScanTask(name=f"{d} spiderfoot scan", target=d, kind="spiderfoot"))
+        for d in domains:
+            runner.add_task(ScanTask(name=f"{d} quick scan", target=d, kind="nmap:quick"))
+            runner.add_task(ScanTask(name=f"{d} shodan lookup", target=d, kind="shodan:lookup"))
+            runner.add_task(ScanTask(name=f"{d} spiderfoot scan", target=d, kind="spiderfoot"))
 
-    runner.run_all()
+        runner.run_all()
+
+    except Exception as e:
+        log_exception(logger, "CRITICAL - OrbitDuck crashed", e)
+        logger.error("💥 OrbitDuck encountered a fatal error. Check error.log for details.")

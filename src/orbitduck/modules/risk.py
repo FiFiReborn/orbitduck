@@ -13,7 +13,12 @@ import ipaddress
 from datetime import datetime
 from typing import Dict, Any
 from threading import Lock
-from orbitduck.utils.risk_merge import merge_risk_scores
+from orbitduck.utils.risk_merge import merge_module_scores
+from orbitduck.modules.geoip_lookup import lookup_ip_location
+from orbitduck.modules.whois_lookup import get_whois_data
+import json
+
+
 
 # -------------------------------
 # Global Lock and Rate Limit
@@ -71,6 +76,26 @@ def _safe_rate_limit():
         raise RuntimeError(f"Scan too frequent — wait {SCAN_INTERVAL - elapsed:.1f}s")
     _last_scan_time = now
 
+def evaluate_module_risk(result: Dict[str, Any], weights: Dict[str, Any]) -> float:
+    """Returns a numeric score for a single module result."""
+    text = str(result).lower()
+    score = 0
+
+    if "cve" in text:
+        score += weights.get("cve", 10)
+    if "open" in text or "port" in text:
+        score += weights.get("open_port", 5)
+    if "exposed" in text:
+        score += weights.get("exposed_service", 4)
+    if "timeout" in text:
+        score += weights.get("timeout", 2)
+    if "error" in text:
+        score += weights.get("error", 1)
+    if "leak" in text or "breach" in text:
+        score += weights.get("leak", 8)
+
+    return score
+
 # -------------------------------
 # Risk Assessment
 # -------------------------------
@@ -93,28 +118,45 @@ def assess_risk(result: Dict[str, Any]) -> Dict[str, Any]:
     except RuntimeError as e:
         return {"risk": "BLOCKED", "reason": str(e), "safe_rule": 3}
 
-    # Core scoring
-    findings = str(result).lower()
-    score = 0
-    if "cve" in findings:
-        score += 3
-    if "open" in findings or "exposed" in findings:
-        score += 2
-    if "error" in findings or "timeout" in findings:
-        score += 1
+    # Load configuration
+    with open(os.getenv("ORBIT_RISK_CONFIG", "config/risk_weights.json")) as f:
+        cfg = json.load(f)
+    module_weights = cfg.get("modules", {})
+    weights = cfg.get("weights", {})
+    thresholds = cfg.get("thresholds", {})
 
-    if score >= 6:
+    # Module-specific scoring (if results are structured)
+    nmap_score = evaluate_module_risk(result.get("nmap", {}), weights)
+    shodan_score = evaluate_module_risk(result.get("shodan", {}), weights)
+    spider_score = evaluate_module_risk(result.get("spiderfoot", {}), weights)
+
+    # Merge module scores using weighted average
+    total_score = merge_module_scores(
+        nmap_score=nmap_score,
+        shodan_score=shodan_score,
+        spiderfoot_score=spider_score,
+        module_weights=module_weights
+    )
+
+    # Determine overall risk level
+    if total_score >= thresholds.get("high", 30):
         level = "HIGH"
-    elif score >= 3:
+    elif total_score >= thresholds.get("medium", 15):
         level = "MEDIUM"
     else:
         level = "LOW"
 
+    # GeoIP + WHOIS enrichment
+    geo_info = lookup_ip_location(target)
+    whois_info = get_whois_data(target)
+
     return {
         "target": target,
         "timestamp": datetime.utcnow().isoformat(),
-        "score": score,
+        "score": total_score,
         "risk": level,
+        "geo": geo_info,
+        "whois": whois_info,
         "safe_rules_passed": True
     }
 

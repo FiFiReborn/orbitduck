@@ -1,0 +1,236 @@
+2025-11-10 13:37:14 | ERROR | ❌ Error while scanning 8.8.8.8: [Errno 2] No such file or directory: 'nmap'
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 154, in run_all
+    scan_result["nmap"] = nmap_quick_scan(t.target)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/src/orbitduck/modules/nmap_scan.py", line 20, in nmap_quick_scan
+    return _run(cmd)
+           ^^^^^^^^^
+  File "/workspaces/orbitduck/src/orbitduck/modules/nmap_scan.py", line 8, in _run
+    out = subprocess.run(cmd, capture_output=True, text=True, check=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'nmap'
+
+2025-11-10 13:37:16 | ERROR | ❌ Error while scanning 8.8.8.8: No module named 'httpx'
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 161, in run_all
+    from orbitduck.modules.shodan_search import shodan_host_lookup
+  File "/workspaces/orbitduck/src/orbitduck/modules/shodan_search.py", line 4, in <module>
+    import httpx
+ModuleNotFoundError: No module named 'httpx'
+
+2025-11-10 13:37:18 | ERROR | ❌ Error while scanning 8.8.8.8: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1091, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1035, in send
+    self.connect()
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 166, in run_all
+    scan_id = run_scan(t.target)
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/src/orbitduck/modules/spiderfoot.py", line 16, in run_scan
+    resp = requests.post(f"{BASE_URL}scan/new", json=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+2025-11-10 13:37:33 | ERROR | ❌ Error while scanning example.com: [Errno 2] No such file or directory: 'nmap'
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 154, in run_all
+    scan_result["nmap"] = nmap_quick_scan(t.target)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/src/orbitduck/modules/nmap_scan.py", line 20, in nmap_quick_scan
+    return _run(cmd)
+           ^^^^^^^^^
+  File "/workspaces/orbitduck/src/orbitduck/modules/nmap_scan.py", line 8, in _run
+    out = subprocess.run(cmd, capture_output=True, text=True, check=False)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'nmap'
+
+2025-11-10 13:37:35 | ERROR | ❌ Error while scanning example.com: No module named 'httpx'
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 161, in run_all
+    from orbitduck.modules.shodan_search import shodan_host_lookup
+  File "/workspaces/orbitduck/src/orbitduck/modules/shodan_search.py", line 4, in <module>
+    import httpx
+ModuleNotFoundError: No module named 'httpx'
+
+2025-11-10 13:37:37 | ERROR | ❌ Error while scanning example.com: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused'))
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 494, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1331, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1091, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1035, in send
+    self.connect()
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 325, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 166, in run_all
+    scan_id = run_scan(t.target)
+              ^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/src/orbitduck/modules/spiderfoot.py", line 16, in run_scan
+    resp = requests.post(f"{BASE_URL}scan/new", json=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+2025-11-10 14:00:22 | ERROR | ❌ CRITICAL - OrbitDuck crashed: name '_last_scan_time' is not defined
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 302, in <module>
+    runner.run_all()
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 163, in run_all
+    _wait_for_rate_limit()
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 97, in _wait_for_rate_limit
+    elapsed = now - _last_scan_time
+                    ^^^^^^^^^^^^^^^
+NameError: name '_last_scan_time' is not defined
+
+2025-11-10 14:00:22 | ERROR | 💥 OrbitDuck encountered a fatal error. Check error.log for details.
+2025-11-10 14:16:30 | ERROR | ❌ CRITICAL - OrbitDuck crashed: name 'show_startup_banner' is not defined
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 339, in <module>
+    runner.run_all()
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 156, in run_all
+    show_startup_banner()
+    ^^^^^^^^^^^^^^^^^^^
+NameError: name 'show_startup_banner' is not defined
+
+2025-11-10 14:16:30 | ERROR | 💥 OrbitDuck encountered a fatal error. Check error.log for details.
+2025-11-10 14:21:33 | ERROR | ❌ CRITICAL - OrbitDuck crashed: type object 'datetime.datetime' has no attribute 'datetime'
+Traceback (most recent call last):
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 344, in <module>
+    runner.run_all()
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 161, in run_all
+    show_startup_banner()
+  File "/workspaces/orbitduck/src/orbitduck/core_runner.py", line 33, in show_startup_banner
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ^^^^^^^^^^^^^^^^^
+AttributeError: type object 'datetime.datetime' has no attribute 'datetime'
+
+2025-11-10 14:21:33 | ERROR | 💥 OrbitDuck encountered a fatal error. Check error.log for details.

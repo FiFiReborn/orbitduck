@@ -1,0 +1,104 @@
+{"timestamp": "2025-11-10T13:27:27.827093", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T13:27:30.136416", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T13:27:30.137915", "event_type": "scan_error", "data": {"target": "example.com", "error": "[Errno 2] No such file or directory: 'nmap'"}}
+{"timestamp": "2025-11-10T13:27:30.138110", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:27:32.137511", "event_type": "scan_error", "data": {"target": "example.com", "error": "No module named 'httpx'"}}
+{"timestamp": "2025-11-10T13:27:32.137689", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:27:34.138704", "event_type": "scan_error", "data": {"target": "example.com", "error": "HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7a235f043d70>: Failed to establish a new connection: [Errno 111] Connection refused'))"}}
+{"timestamp": "2025-11-10T13:27:34.138878", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:27:34.139080", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T13:27:34.304037", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T13:37:02.242819", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T13:37:14.498760", "event_type": "subdomain_discovery", "data": {"target": "8.8.8.8", "subdomains_found": 1}}
+{"timestamp": "2025-11-10T13:37:14.545905", "event_type": "exception", "data": {"context": "Error while scanning 8.8.8.8", "error": "[Errno 2] No such file or directory: 'nmap'", "traceback": ["  File \"/usr/lib/python3.12/subprocess.py\", line 1955, in _execute_child", "    raise child_exception_type(errno_num, err_msg, err_filename)", "FileNotFoundError: [Errno 2] No such file or directory: 'nmap'"]}}
+{"timestamp": "2025-11-10T13:37:14.546054", "event_type": "scan_error", "data": {"target": "8.8.8.8", "error": "[Errno 2] No such file or directory: 'nmap'"}}
+{"timestamp": "2025-11-10T13:37:14.546231", "event_type": "task_complete", "data": {"target": "8.8.8.8", "risk": {"risk": "BLOCKED", "reason": "Target 8.8.8.8 not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:37:16.500051", "event_type": "exception", "data": {"context": "Error while scanning 8.8.8.8", "error": "No module named 'httpx'", "traceback": ["  File \"/workspaces/orbitduck/src/orbitduck/modules/shodan_search.py\", line 4, in <module>", "    import httpx", "ModuleNotFoundError: No module named 'httpx'"]}}
+{"timestamp": "2025-11-10T13:37:16.500162", "event_type": "scan_error", "data": {"target": "8.8.8.8", "error": "No module named 'httpx'"}}
+{"timestamp": "2025-11-10T13:37:16.500294", "event_type": "task_complete", "data": {"target": "8.8.8.8", "risk": {"risk": "BLOCKED", "reason": "Target 8.8.8.8 not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:37:18.509983", "event_type": "exception", "data": {"context": "Error while scanning 8.8.8.8", "error": "HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))", "traceback": ["  File \"/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/adapters.py\", line 677, in send", "    raise ConnectionError(e, request=request)", "requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))"]}}
+{"timestamp": "2025-11-10T13:37:18.510106", "event_type": "scan_error", "data": {"target": "8.8.8.8", "error": "HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7770abb7c2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))"}}
+{"timestamp": "2025-11-10T13:37:18.510229", "event_type": "task_complete", "data": {"target": "8.8.8.8", "risk": {"risk": "BLOCKED", "reason": "Target 8.8.8.8 not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:37:18.510380", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T13:37:18.666540", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "8.8.8.8", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T13:37:32.224254", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T13:37:33.907370", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T13:37:33.910333", "event_type": "exception", "data": {"context": "Error while scanning example.com", "error": "[Errno 2] No such file or directory: 'nmap'", "traceback": ["  File \"/usr/lib/python3.12/subprocess.py\", line 1955, in _execute_child", "    raise child_exception_type(errno_num, err_msg, err_filename)", "FileNotFoundError: [Errno 2] No such file or directory: 'nmap'"]}}
+{"timestamp": "2025-11-10T13:37:33.910445", "event_type": "scan_error", "data": {"target": "example.com", "error": "[Errno 2] No such file or directory: 'nmap'"}}
+{"timestamp": "2025-11-10T13:37:33.910600", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:37:35.908858", "event_type": "exception", "data": {"context": "Error while scanning example.com", "error": "No module named 'httpx'", "traceback": ["  File \"/workspaces/orbitduck/src/orbitduck/modules/shodan_search.py\", line 4, in <module>", "    import httpx", "ModuleNotFoundError: No module named 'httpx'"]}}
+{"timestamp": "2025-11-10T13:37:35.908991", "event_type": "scan_error", "data": {"target": "example.com", "error": "No module named 'httpx'"}}
+{"timestamp": "2025-11-10T13:37:35.909121", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:37:37.912108", "event_type": "exception", "data": {"context": "Error while scanning example.com", "error": "HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused'))", "traceback": ["  File \"/workspaces/orbitduck/.venv/lib/python3.12/site-packages/requests/adapters.py\", line 677, in send", "    raise ConnectionError(e, request=request)", "requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused'))"]}}
+{"timestamp": "2025-11-10T13:37:37.912226", "event_type": "scan_error", "data": {"target": "example.com", "error": "HTTPConnectionPool(host='localhost', port=5001): Max retries exceeded with url: /api/scan/new (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7132e995c800>: Failed to establish a new connection: [Errno 111] Connection refused'))"}}
+{"timestamp": "2025-11-10T13:37:37.912348", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:37:37.912503", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T13:37:38.104152", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T13:54:01.488348", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T13:54:03.152069", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T13:54:08.081432", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:54:08.093786", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:54:10.084750", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T13:54:10.085037", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T13:54:10.321192", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:00:20.007797", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:00:22.923286", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:00:22.940108", "event_type": "exception", "data": {"context": "CRITICAL - OrbitDuck crashed", "error": "name '_last_scan_time' is not defined", "traceback": ["    elapsed = now - _last_scan_time", "                    ^^^^^^^^^^^^^^^", "NameError: name '_last_scan_time' is not defined"]}}
+{"timestamp": "2025-11-10T14:02:04.403872", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:02:06.265755", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:02:10.975907", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:02:11.278447", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:02:16.268621", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:02:16.268858", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:02:16.428341", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:12:30.377371", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:12:32.970734", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:12:39.008733", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:12:39.022692", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:12:44.011766", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:12:44.012073", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:12:44.171695", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:16:30.035765", "event_type": "exception", "data": {"context": "CRITICAL - OrbitDuck crashed", "error": "name 'show_startup_banner' is not defined", "traceback": ["    show_startup_banner()", "    ^^^^^^^^^^^^^^^^^^^", "NameError: name 'show_startup_banner' is not defined"]}}
+{"timestamp": "2025-11-10T14:17:23.121924", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:17:24.867306", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:17:29.795249", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:17:29.880767", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:17:34.870560", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:17:34.870814", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:17:35.029164", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:18:51.141241", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:18:53.224770", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:18:57.944138", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:18:58.235782", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:19:03.227626", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:19:03.227894", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:19:03.417666", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:21:33.153690", "event_type": "exception", "data": {"context": "CRITICAL - OrbitDuck crashed", "error": "type object 'datetime.datetime' has no attribute 'datetime'", "traceback": ["    timestamp = datetime.datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")", "                ^^^^^^^^^^^^^^^^^", "AttributeError: type object 'datetime.datetime' has no attribute 'datetime'"]}}
+{"timestamp": "2025-11-10T14:22:41.952024", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:22:43.388025", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:22:49.985214", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:22:49.997417", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:22:54.988045", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:22:54.988315", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:22:55.177467", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:24:33.516450", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:24:35.221939", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:24:39.926763", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:24:40.232823", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:24:45.224992", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:24:45.225265", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:24:45.381402", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:26:11.860931", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:26:13.183770", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:26:18.996030", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:26:19.008370", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:26:23.998829", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:26:23.999101", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:26:24.173749", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:27:44.877399", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:27:46.421274", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:27:52.634618", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:27:52.646671", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:27:57.637285", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:27:57.637546", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:27:57.797730", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
