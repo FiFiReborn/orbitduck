@@ -447,3 +447,62 @@ AttributeError: type object 'datetime.datetime' has no attribute 'datetime'
 2025-11-10 14:27:57 | INFO |  â€¢ Highest Risk: example.com (BLOCKED, None)
 2025-11-10 14:27:57 | INFO | â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 2025-11-10 14:27:57 | INFO | ðŸ§¾ Scan summary logged and audit trail updated
+2025-11-11 01:43:23 | INFO |  • Total Targets: 3
+2025-11-11 01:43:23 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:43:23 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 01:44:34 | INFO |  • Total Targets: 3
+2025-11-11 01:44:34 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:44:34 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 01:47:20 | INFO |  • Total Targets: 3
+2025-11-11 01:47:20 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:47:20 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 01:50:07 | INFO |  • Total Targets: 3
+2025-11-11 01:50:07 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:50:07 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 01:52:08 | INFO |  • Total Targets: 3
+2025-11-11 01:52:08 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:52:08 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 01:54:42 | INFO |  • Total Targets: 3
+2025-11-11 01:54:42 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:54:42 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 01:56:38 | INFO |  • Total Targets: 3
+2025-11-11 01:56:38 | INFO |  • Average Risk Score: 0.0
+2025-11-11 01:56:38 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 08:36:21 | INFO |  • Total Targets: 3
+2025-11-11 08:36:21 | INFO |  • Average Risk Score: 0.0
+2025-11-11 08:36:21 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 08:48:46 | ERROR | [ERROR] OrbitDuck encountered a fatal error. Check error.log for details.
+2025-11-11 08:54:55 | ERROR | [ERROR] OrbitDuck encountered a fatal error. Check error.log for details.
+2025-11-11 08:55:07 | INFO | [INFO] Starting Orbit scans for: example.com
+2025-11-11 08:55:07 | INFO | [START] Beginning Orbit scan run
+2025-11-11 08:55:11 | INFO | [DISCOVERY] example.com -> 1 subdomains found
+2025-11-11 08:55:11 | INFO | [SUMMARY] Total targets to scan: 2
+2025-11-11 08:55:11 | INFO | [TASK] nmap quick -> example.com
+2025-11-11 08:55:11 | INFO | [TASK] shodan lookup -> example.com
+2025-11-11 08:55:17 | INFO | [TASK] spiderfoot -> example.com
+2025-11-11 08:55:30 | INFO | [DONE] All tasks complete — updating risk metrics...
+2025-11-11 08:55:30 | INFO | [DASHBOARD] Building updated dashboard...
+2025-11-11 08:55:30 | INFO | [DIFF] Generating diffs...
+2025-11-11 08:55:30 | INFO | [SUCCESS] Dashboard and diffs updated successfully.
+2025-11-11 08:55:30 | INFO | [REPORT] Scan Summary
+2025-11-11 08:55:30 | INFO |  • Total Targets: 3
+2025-11-11 08:55:30 | INFO |  • Average Risk Score: 0.0
+2025-11-11 08:55:30 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 08:55:30 | INFO | [AUDIT] Scan summary logged and audit trail updated
+2025-11-11 08:57:23 | INFO | [INFO] Starting Orbit scans for: example.com
+2025-11-11 08:57:23 | INFO | [START] Beginning Orbit scan run
+2025-11-11 08:57:25 | INFO | [DISCOVERY] example.com -> 1 subdomains found
+2025-11-11 08:57:25 | INFO | [SUMMARY] Total targets to scan: 2
+2025-11-11 08:57:25 | INFO | [TASK] nmap quick -> example.com
+2025-11-11 08:57:25 | INFO | [TASK] shodan lookup -> example.com
+2025-11-11 08:57:30 | INFO | [TASK] spiderfoot -> example.com
+2025-11-11 08:57:43 | INFO | [DONE] All tasks complete — updating risk metrics...
+2025-11-11 08:57:43 | INFO | [DASHBOARD] Building updated dashboard...
+2025-11-11 08:57:43 | INFO | [DIFF] Generating diffs...
+2025-11-11 08:57:43 | INFO | [SUCCESS] Dashboard and diffs updated successfully.
+2025-11-11 08:57:43 | INFO | [REPORT] Scan Summary
+2025-11-11 08:57:43 | INFO |  • Total Targets: 3
+2025-11-11 08:57:43 | INFO |  • Average Risk Score: 0.0
+2025-11-11 08:57:43 | INFO |  • Highest Risk: example.com (BLOCKED, None)
+2025-11-11 08:57:43 | INFO | ----------------------------------------
+2025-11-11 08:57:43 | INFO | [AUDIT] Scan summary logged and audit trail updated

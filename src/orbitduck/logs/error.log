@@ -234,3 +234,5 @@ Traceback (most recent call last):
 AttributeError: type object 'datetime.datetime' has no attribute 'datetime'
 
 2025-11-10 14:21:33 | ERROR | 💥 OrbitDuck encountered a fatal error. Check error.log for details.
+2025-11-11 08:48:46 | ERROR | [ERROR] OrbitDuck encountered a fatal error. Check error.log for details.
+2025-11-11 08:54:55 | ERROR | [ERROR] OrbitDuck encountered a fatal error. Check error.log for details.

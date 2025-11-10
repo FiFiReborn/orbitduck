@@ -102,3 +102,75 @@
 {"timestamp": "2025-11-10T14:27:57.637285", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
 {"timestamp": "2025-11-10T14:27:57.637546", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
 {"timestamp": "2025-11-10T14:27:57.797730", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:43:03.166233", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:43:05.536675", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:43:05.543281", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:43:10.618351", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:43:23.701980", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:43:23.702994", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:43:23.715772", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:44:14.901020", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:44:16.813443", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:44:16.818796", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:44:21.897887", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:44:34.986073", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:44:34.987090", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:44:34.993777", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:46:59.787881", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:47:02.409695", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:47:02.414284", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:47:07.492031", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:47:20.578399", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:47:20.579414", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:47:20.585522", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:49:47.291099", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:49:49.011701", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:49:49.016021", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:49:54.090725", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:50:07.217085", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:50:07.218610", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:50:07.224184", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:51:48.554517", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:51:50.222426", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:51:50.227458", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:51:55.299779", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:52:08.415766", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:52:08.416846", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:52:08.423068", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:54:22.643979", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:54:24.298876", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:54:24.302447", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:54:29.375976", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:54:42.443480", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:54:42.444497", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:54:42.447619", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T14:56:18.709750", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T14:56:20.372738", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 11}}
+{"timestamp": "2025-11-10T14:56:20.377221", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:56:25.450326", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:56:38.520213", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T14:56:38.521224", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T14:56:38.524470", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T21:36:01.438365", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T21:36:03.404912", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 1}}
+{"timestamp": "2025-11-10T21:36:03.409256", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:36:08.522895", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:36:21.570208", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:36:21.579307", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T21:36:21.588130", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T21:48:46.640840", "event_type": "exception", "data": {"context": "CRITICAL - OrbitDuck crashed", "error": "name 'CoreRunner' is not defined", "traceback": ["    runner = CoreRunner()", "             ^^^^^^^^^^", "NameError: name 'CoreRunner' is not defined"]}}
+{"timestamp": "2025-11-10T21:54:55.545620", "event_type": "exception", "data": {"context": "CRITICAL - OrbitDuck crashed", "error": "name 'CoreRunner' is not defined", "traceback": ["    runner = CoreRunner()", "             ^^^^^^^^^^", "NameError: name 'CoreRunner' is not defined"]}}
+{"timestamp": "2025-11-10T21:55:07.515251", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T21:55:11.967447", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 1}}
+{"timestamp": "2025-11-10T21:55:11.970738", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:55:17.045084", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:55:30.148357", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:55:30.148357", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T21:55:30.159674", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
+{"timestamp": "2025-11-10T21:57:23.829915", "event_type": "scan_start", "data": {"total_tasks": 3}}
+{"timestamp": "2025-11-10T21:57:25.492343", "event_type": "subdomain_discovery", "data": {"target": "example.com", "subdomains_found": 1}}
+{"timestamp": "2025-11-10T21:57:25.495591", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:57:30.567109", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:57:43.656075", "event_type": "task_complete", "data": {"target": "example.com", "risk": {"risk": "BLOCKED", "reason": "Target example.com not in allowlist", "safe_rule": 2}}}
+{"timestamp": "2025-11-10T21:57:43.656075", "event_type": "scan_complete", "data": {"completed_tasks": 3}}
+{"timestamp": "2025-11-10T21:57:43.657081", "event_type": "summary", "data": {"total_targets": 3, "average_score": 0.0, "highest_risk": "example.com", "highest_risk_level": "BLOCKED"}}
