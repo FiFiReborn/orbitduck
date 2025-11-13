@@ -506,3 +506,57 @@ AttributeError: type object 'datetime.datetime' has no attribute 'datetime'
 2025-11-11 08:57:43 | INFO |  • Highest Risk: example.com (BLOCKED, None)
 2025-11-11 08:57:43 | INFO | ----------------------------------------
 2025-11-11 08:57:43 | INFO | [AUDIT] Scan summary logged and audit trail updated
+2025-11-11 09:11:21 | INFO | [INFO] Mock mode enabled — running in safe simulation mode
+2025-11-11 09:11:21 | INFO | [INFO] Starting Orbit scans for: example.com
+2025-11-11 09:11:21 | INFO | [START] Beginning Orbit scan run
+2025-11-11 09:11:23 | INFO | [DISCOVERY] example.com -> 1 subdomains found
+2025-11-11 09:11:23 | INFO | [SUMMARY] Total targets to scan: 2
+2025-11-11 09:11:23 | INFO | [TASK] nmap quick -> example.com
+2025-11-11 09:11:23 | INFO | [TASK] shodan lookup -> example.com
+2025-11-11 09:11:28 | INFO | [TASK] spiderfoot -> example.com
+2025-11-11 09:11:41 | INFO | [DONE] All tasks complete — updating risk metrics...
+2025-11-11 09:11:41 | INFO | [DASHBOARD] Building updated dashboard...
+2025-11-11 09:11:41 | INFO | [DIFF] Generating diffs...
+2025-11-11 09:11:41 | INFO | [SUCCESS] Dashboard and diffs updated successfully.
+2025-11-11 09:11:41 | INFO | [REPORT] Scan Summary
+2025-11-11 09:11:41 | INFO |  • Total Targets: 3
+2025-11-11 09:11:41 | INFO |  • Average Risk Score: 0.0
+2025-11-11 09:11:41 | INFO |  • Highest Risk: example.com (UNKNOWN, 0)
+2025-11-11 09:11:41 | INFO | ----------------------------------------
+2025-11-11 09:11:41 | INFO | [AUDIT] Scan summary logged and audit trail updated
+2025-11-11 09:19:59 | INFO | [INFO] Mock mode enabled — running in safe simulation mode
+2025-11-11 09:19:59 | INFO | [INFO] Starting Orbit scans for: example.com
+2025-11-11 09:19:59 | INFO | [START] Beginning Orbit scan run
+2025-11-11 09:20:01 | INFO | [DISCOVERY] example.com -> 1 subdomains found
+2025-11-11 09:20:01 | INFO | [SUMMARY] Total targets to scan: 2
+2025-11-11 09:20:01 | INFO | [TASK] nmap quick -> example.com
+2025-11-11 09:20:02 | INFO | [TASK] shodan lookup -> example.com
+2025-11-11 09:20:07 | INFO | [TASK] spiderfoot -> example.com
+2025-11-11 09:20:20 | INFO | [DONE] All tasks complete — updating risk metrics...
+2025-11-11 09:20:20 | INFO | [DASHBOARD] Building updated dashboard...
+2025-11-11 09:20:20 | INFO | [DIFF] Generating diffs...
+2025-11-11 09:20:20 | INFO | [SUCCESS] Dashboard and diffs updated successfully.
+2025-11-11 09:20:20 | INFO | [REPORT] Scan Summary
+2025-11-11 09:20:20 | INFO |  • Total Targets: 3
+2025-11-11 09:20:20 | INFO |  • Average Risk Score: 0.0
+2025-11-11 09:20:20 | INFO |  • Highest Risk: example.com (LOW, 0.0)
+2025-11-11 09:20:20 | INFO | ----------------------------------------
+2025-11-11 09:20:20 | INFO | [AUDIT] Scan summary logged and audit trail updated
+2025-11-11 09:41:20 | INFO | [INFO] Mock mode enabled — running in safe simulation mode
+2025-11-11 09:41:20 | INFO | [INFO] Starting Orbit scans for: example.com
+2025-11-11 09:41:20 | INFO | [START] Beginning Orbit scan run
+2025-11-11 09:41:22 | INFO | [DISCOVERY] example.com -> 1 subdomains found
+2025-11-11 09:41:22 | INFO | [SUMMARY] Total targets to scan: 2
+2025-11-11 09:41:22 | INFO | [TASK] nmap quick -> example.com
+2025-11-11 09:41:24 | INFO | [TASK] shodan lookup -> example.com
+2025-11-11 09:41:28 | INFO | [TASK] spiderfoot -> example.com
+2025-11-11 09:41:41 | INFO | [DONE] All tasks complete — updating risk metrics...
+2025-11-11 09:41:41 | INFO | [DASHBOARD] Building updated dashboard...
+2025-11-11 09:41:41 | INFO | [DIFF] Generating diffs...
+2025-11-11 09:41:41 | INFO | [SUCCESS] Dashboard and diffs updated successfully.
+2025-11-11 09:41:41 | INFO | [REPORT] Scan Summary
+2025-11-11 09:41:41 | INFO |  • Total Targets: 3
+2025-11-11 09:41:41 | INFO |  • Average Risk Score: 0.0
+2025-11-11 09:41:41 | INFO |  • Highest Risk: example.com (LOW, 0.0)
+2025-11-11 09:41:41 | INFO | ----------------------------------------
+2025-11-11 09:41:41 | INFO | [AUDIT] Scan summary logged and audit trail updated

@@ -1,3 +1,4 @@
+# orbitduck/core_runner.py
 from dataclasses import dataclass
 from typing import List, Dict, Any
 import os
@@ -6,37 +7,39 @@ from datetime import datetime
 import pandas as pd
 from threading import Lock
 from pathlib import Path
-from orbitduck.utils.logger_manager import setup_logger, log_audit_entry, log_exception
 from colorama import init, Fore, Style
-init(autoreset=True)
 
+# project utils
+from orbitduck.utils.logger_manager import setup_logger, log_audit_entry, log_exception
 from orbitduck.modules.risk import assess_risk
 from orbitduck.utils.risk_trend import generate_risk_trend
 from orbitduck.modules import spiderfoot
 from orbitduck.modules.subdomain_enum import enumerate_subdomains
 from orbitduck.utils.report_manager import build_reports_dashboard
 from orbitduck.utils.diff_manager import auto_generate_diffs
+
+init(autoreset=True)
+
+# debug notice (safe)
 print("[DEBUG] orbitduck.core_runner loaded.")
 
 _lock = Lock()
+_last_scan_time = 0.0
 
 # -------------------------------
-# Helper functions
+# Helper: Startup banner (no emoji)
 # -------------------------------
 def show_startup_banner():
-    from pathlib import Path
-    import datetime
-    import os
-    from colorama import Fore, Style
     conf_path = Path("orbitduck/config/orbitduck.conf")
     mock_mode = os.getenv("ORBITDUCK_MOCK_MODE") == "1"
     mode_label = "MOCK MODE" if mock_mode else "REAL MODE"
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     box_width = 46
-
     def line(text="", color=Fore.YELLOW):
         padding = box_width - len(text) - 3
+        if padding < 0:
+            padding = 0
         return f"{color}║ {text}{' ' * padding}{Fore.MAGENTA}║"
 
     print(f"\n{Fore.MAGENTA}{Style.BRIGHT}╔{'═' * (box_width - 2)}╗")
@@ -51,26 +54,26 @@ def show_startup_banner():
     print(f"{Fore.MAGENTA}{Style.BRIGHT}╚{'═' * (box_width - 2)}╝{Style.RESET_ALL}\n")
 
 # -------------------------------
-#  Allowlist + Rate Limit Helpers
+# Allowlist loader + mock defaults
 # -------------------------------
 def _load_allowlist() -> set:
     allowlist = set()
     conf_path = Path("orbitduck/config/orbitduck.conf")
     mock_mode = False
-    defaults = []
+    defaults: List[str] = []
+
     if conf_path.exists():
         for line in conf_path.read_text().splitlines():
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
-            if line.startswith("MOCK_MODE"):
+            if line.upper().startswith("MOCK_MODE"):
                 mock_mode = "true" in line.lower()
-            if line.startswith("DEFAULT_ALLOWLIST"):
+            if line.upper().startswith("DEFAULT_ALLOWLIST"):
                 defaults = [t.strip() for t in line.split("=", 1)[1].split(",") if t.strip()]
 
     file_path = os.getenv("ORBIT_ALLOWLIST_FILE", "config/allowlist.txt")
     path = Path(file_path)
-
     if path.exists():
         for line in path.read_text().splitlines():
             line = line.strip()
@@ -83,10 +86,10 @@ def _load_allowlist() -> set:
         print(f"[INFO] Loaded {len(allowlist)} entries from {file_path}")
     else:
         if defaults:
-            print(f"[WARN] No allowlist file found, creating one with defaults...")
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("\n".join(defaults))
             allowlist.update(defaults)
+            print(f"[INFO] Created allowlist with defaults at {file_path}")
         else:
             print(f"[WARN] Allowlist file not found at {file_path}")
 
@@ -107,17 +110,17 @@ def _load_allowlist() -> set:
         print(f"[INFO] Final allowlist total: {len(allowlist)} targets.")
 
     if mock_mode:
-        print("[INFO] MOCK MODE ACTIVE — all modules will use simulated scans.")
+        print("[INFO] MOCK MODE ACTIVE — simulated scans enabled.")
         os.environ["ORBITDUCK_MOCK_MODE"] = "1"
     else:
         os.environ.pop("ORBITDUCK_MOCK_MODE", None)
 
     return allowlist
 
-_last_scan_time = 0.0
-
+# -------------------------------
+# Simple rate limiter
+# -------------------------------
 def _wait_for_rate_limit():
-    """Prevent scans from firing too quickly between modules."""
     global _last_scan_time
     interval = float(os.getenv("ORBITDUCK_SCAN_INTERVAL", "5"))
     now = time.time()
@@ -131,6 +134,9 @@ def _wait_for_rate_limit():
         time.sleep(wait)
     _last_scan_time = time.time()
 
+# -------------------------------
+# Task dataclass + CoreRunner
+# -------------------------------
 @dataclass
 class ScanTask:
     name: str
@@ -150,25 +156,25 @@ class CoreRunner:
         show_startup_banner()
         self.logger.info("[START] Beginning Orbit scan run")
         log_audit_entry("scan_start", {"total_tasks": len(self.tasks)})
-
         results: List[Dict[str, Any]] = []
 
+        # filter by allowlist
         if self.allowlist:
             allowed = [t for t in self.tasks if t.target in self.allowlist]
             blocked = [t for t in self.tasks if t.target not in self.allowlist]
             if blocked:
                 self.logger.warning(f"[WARN] Skipping {len(blocked)} disallowed task(s): " +
-                                ", ".join(t.target for t in blocked))
+                                    ", ".join(t.target for t in blocked))
                 log_audit_entry("blocked_tasks", {"blocked": [t.target for t in blocked]})
             self.tasks = allowed
 
+        # discovery
         unique_targets = {t.target for t in self.tasks}
         all_targets = set()
         for target in unique_targets:
             if self.allowlist and target not in self.allowlist:
                 self.logger.info(f"[SKIP] Discovery for {target} (not in allowlist)")
                 continue
-
             subs = enumerate_subdomains(target)
             self.logger.info(f"[DISCOVERY] {target} -> {len(subs)} subdomains found")
             log_audit_entry("subdomain_discovery", {"target": target, "subdomains_found": len(subs)})
@@ -181,6 +187,7 @@ class CoreRunner:
 
         self.logger.info(f"[SUMMARY] Total targets to scan: {len(all_targets)}")
 
+        # run tasks
         for t in self.tasks:
             self.logger.info(f"[TASK] {t.kind.replace(':', ' ')} -> {t.target}")
             if self.allowlist and t.target not in self.allowlist:
@@ -188,7 +195,6 @@ class CoreRunner:
                 continue
 
             _wait_for_rate_limit()
-
             try:
                 scan_result = {"target": t.target, "nmap": {}, "shodan": {}, "spiderfoot": {}}
 
@@ -214,8 +220,16 @@ class CoreRunner:
                 log_exception(self.logger, f"Error while scanning {t.target}", e)
                 log_audit_entry("scan_error", {"target": t.target, "error": str(e)})
 
+            # risk assessment (safe fallback if risk config missing)
             try:
+                # assess_risk should itself be robust, but be defensive here
                 risk_result = assess_risk(scan_result)
+            except FileNotFoundError as fe:
+                # config missing: log and return UNKNOWN risk so pipeline continues
+                self.logger.warning(f"[WARN] Risk config missing: {fe}. Marking risk UNKNOWN for {t.target}")
+                risk_result = {"risk": "UNKNOWN", "score": 0}
+                log_exception(self.logger, f"Risk assessment failed for {t.target}", fe)
+                log_audit_entry("risk_error", {"target": t.target, "error": str(fe)})
             except Exception as e:
                 risk_result = {"risk": "UNKNOWN", "score": 0}
                 log_exception(self.logger, f"Risk assessment failed for {t.target}", e)
@@ -224,20 +238,29 @@ class CoreRunner:
             results.append({"task": t.__dict__, "result": scan_result, "risk": risk_result})
             log_audit_entry("task_complete", {"target": t.target, "risk": risk_result})
 
+        # finalize
         self.logger.info("[DONE] All tasks complete — updating risk metrics...")
         log_audit_entry("scan_complete", {"completed_tasks": len(results)})
 
         self.logger.info("[DASHBOARD] Building updated dashboard...")
-        build_reports_dashboard()
-        self.logger.info("[DIFF] Generating diffs...")
-        auto_generate_diffs()
-        self.logger.info("[SUCCESS] Dashboard and diffs updated successfully.")
+        try:
+            build_reports_dashboard()
+        except Exception as e:
+            self.logger.warning(f"[WARN] Failed to build dashboard: {e}")
+            log_exception(self.logger, "Dashboard build failed", e)
 
-        self.logger.info("[REPORT] Scan Summary")
+        self.logger.info("[DIFF] Generating diffs...")
+        try:
+            auto_generate_diffs()
+        except Exception as e:
+            self.logger.warning(f"[WARN] Failed to generate diffs: {e}")
+            log_exception(self.logger, "Diff generation failed", e)
+
+        # summary & CSV update
         total = len(results)
         scores = [r["risk"].get("score", 0) for r in results if "risk" in r]
         high = max(results, key=lambda r: r["risk"].get("score", 0), default=None)
-        avg = sum(scores) / len(scores) if scores else 0
+        avg = sum(scores) / len(scores) if scores else 0.0
 
         summary = {
             "total_targets": total,
@@ -251,28 +274,63 @@ class CoreRunner:
         if high:
             h = high["risk"]
             self.logger.info(f" • Highest Risk: {high['task']['target']} ({h.get('risk')}, {h.get('score')})")
-        self.logger.info("-" * 40)
+        self.logger.info("----------------------------------------")
 
         log_audit_entry("summary", summary)
         self.logger.info("[AUDIT] Scan summary logged and audit trail updated")
 
+        # update risk_history.csv
+        try:
+            self._update_risk_metrics(results)
+        except Exception as e:
+            self.logger.warning(f"[WARN] Failed to update risk metrics CSV: {e}")
+            log_exception(self.logger, "Risk metrics update failed", e)
+
         return results
 
+    def _update_risk_metrics(self, results: List[Dict[str, Any]]):
+        reports_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../reports")
+        os.makedirs(reports_dir, exist_ok=True)
+        csv_path = os.path.join(reports_dir, "risk_history.csv")
+
+        rows = []
+        for r in results:
+            task = r.get("task", {})
+            risk = r.get("risk", {})
+            rows.append({
+                "scan_id": datetime.now().strftime("%Y%m%d%H%M%S"),
+                "date": datetime.now().strftime("%Y-%m-%d"),
+                "target": task.get("target", "unknown"),
+                "risk_level": risk.get("risk", "UNKNOWN"),
+                "risk_score": risk.get("score", 0),
+            })
+
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            df = pd.concat([df, pd.DataFrame(rows)], ignore_index=True)
+        else:
+            df = pd.DataFrame(rows)
+        df.to_csv(csv_path, index=False)
+
+        try:
+            generate_risk_trend(data_file=csv_path, output_dir=reports_dir)
+        except Exception as e:
+            self.logger.warning(f"[WARN] Could not generate risk trend chart: {e}")
+            log_exception(self.logger, "Risk trend generation failed", e)
 
 # -------------------------------
-#  Main Execution Entry
+# Main entry
 # -------------------------------
 if __name__ == "__main__":
     import sys
-    from orbitduck.utils.logger_manager import setup_logger, log_exception
-
     logger = setup_logger()
     try:
         print("[DEBUG] Main block running")
         runner = CoreRunner()
 
         if len(sys.argv) > 1:
-            domains = sys.argv[1:]
+            # treat anything after module name as domains (skip optional flags parsing)
+            domains = [a for a in sys.argv[1:] if not a.startswith("--")]
         else:
             domains = list(runner.allowlist)
 

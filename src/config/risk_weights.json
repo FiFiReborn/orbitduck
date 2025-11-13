@@ -1,0 +1,7 @@
+{
+    "open_ports": 2.0,
+    "vulnerabilities": 3.5,
+    "exposed_services": 2.5,
+    "ssl_issues": 1.5,
+    "subdomain_exposure": 1.0
+}
