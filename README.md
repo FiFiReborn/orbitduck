@@ -8,6 +8,32 @@ This included improving modular architecture, implementing trend analysis, optim
 This repository represents the evolution of our original Capstone work into an ongoing personal and professional project.
 
 ---
+🚀 Development Phases
+
+OrbitDuck is being built in clear phases so each upgrade stays organised and easy to track.
+Every time a phase is completed, it gets pushed to GitHub.
+
+**Phase 1 — Core System (Completed)**
+* Main scan runner
+* Mock mode
+* Risk scoring
+* Basic reports and audit trail
+* Snapshot generation
+
+**Phase 2 — Dashboard & History (In Progress)**
+* Visual dashboard overhaul
+* Risk charts and scan timeline
+* Snapshot viewer
+* Light/dark theme toggle
+* UI polish
+
+**Future Phases**
+* Config setup wizard
+* Extended integrations
+* Improved CLI features
+* More automation and alerting
+
+---
 
 ## 🧩 Project Overview
 
